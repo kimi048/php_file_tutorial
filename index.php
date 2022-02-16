@@ -14,16 +14,22 @@ if(isset($_POST['uploadBtn']) && $_POST['uploadBtn'] == 'Upload'){
 
     // echo $fileExt;
     $newFileName = md5(time()."-".$filePathname).".".$fileExt;
-    $uploadDir = "./uploaded_files/";
-    $destinationPath = $uploadDir.$newFileName;
-
-    if(move_uploaded_file($fileTmpName, $destinationPath)){
-      $message = "File uploaded successfully";
-    }else{
-      $message = "failed to upload file";
-    }
     
-    echo $newFileName;
+    
+    $allowedFileTypes = array('jpg');
+
+    if(in_array($fileExt,$allowedFileTypes)){
+      $uploadDir = "./uploaded_files/";
+      $destinationPath = $uploadDir.$newFileName;
+      if(move_uploaded_file($fileTmpName, $destinationPath)){
+        $message = "File uploaded successfully";
+      }else{
+        $message = "failed to upload file";
+      }
+    }else{
+      $message = "Sorry file type is incorrect";
+    }
+    // echo $newFileName;
   }else{
     echo "something went wrong";
   }
